@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import { injectIntl, intlShape } from 'react-intl';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   PRODUCT_BUG,
   AUTOMATION_BUG,
@@ -12,6 +13,8 @@ import { FAILED, INTERRUPTED, PASSED, SKIPPED } from 'common/constants/launchSta
 import { COMMON_LOCALE_KEYS } from 'common/constants/localization';
 import { Grid } from 'components/main/grid';
 import { AbsRelTime } from 'components/main/absRelTime';
+import { LAUNCHES_PAGE } from 'controllers/pages';
+import { createFilterAction } from 'controllers/filter';
 import { ItemInfo } from 'pages/inside/common/itemInfo';
 import {
   ENTITY_START_TIME,
@@ -193,6 +196,9 @@ TiColumn.propTypes = {
   className: PropTypes.string.isRequired,
 };
 
+@connect(null, {
+  createFilterAction,
+})
 @injectIntl
 export class LaunchSuiteGrid extends PureComponent {
   static propTypes = {
@@ -219,6 +225,7 @@ export class LaunchSuiteGrid extends PureComponent {
       isGridRowHighlighted: PropTypes.bool,
       highlightedRowId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
+    createFilterAction: PropTypes.func.isRequired,
   };
   static defaultProps = {
     data: [],
@@ -408,22 +415,23 @@ export class LaunchSuiteGrid extends PureComponent {
   }
 
   handleAttributeFilterClick = (attribute) => {
-    this.props.onFilterClick({
-      id: ENTITY_ATTRIBUTE_KEYS,
-      value: {
-        filteringField: ENTITY_ATTRIBUTE_KEYS,
-        condition: CONDITION_HAS,
-        value: attribute.key || '',
-      },
-    });
-    this.props.onFilterClick({
-      id: ENTITY_ATTRIBUTE_VALUES,
-      value: {
-        filteringField: ENTITY_ATTRIBUTE_VALUES,
-        condition: CONDITION_HAS,
-        value: attribute.value || '',
-      },
-    });
+    const filter = {
+      type: LAUNCHES_PAGE,
+      conditions: [
+        {
+          filteringField: ENTITY_ATTRIBUTE_KEYS,
+          condition: CONDITION_HAS,
+          value: attribute.key || '',
+        },
+        {
+          filteringField: ENTITY_ATTRIBUTE_VALUES,
+          condition: CONDITION_HAS,
+          value: attribute.value || '',
+        },
+      ],
+    };
+
+    this.props.createFilterAction(filter);
   };
 
   handleOwnerFilterClick = (owner) =>
