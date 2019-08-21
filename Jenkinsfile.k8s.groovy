@@ -9,8 +9,8 @@ podTemplate(
         label: "${label}",
         containers: [
                 containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:alpine'),
-                containerTemplate(name: 'docker', image: 'docker:dind', ttyEnabled: true, alwaysPullImage: true, privileged: true,
-                        command: 'dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay'),
+#                containerTemplate(name: 'docker', image: 'docker:dind', ttyEnabled: true, alwaysPullImage: true, privileged: true,
+#                        command: 'dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay'),
                 containerTemplate(
                         name: 'nodejs',
                         image: 'node:11-alpine',
@@ -42,15 +42,15 @@ podTemplate(
                 ])
         ])
 
-        stage('Configure') {
-            container('docker') {
-                sh 'echo "Initialize environment"'
-                sh """
-                QUAY_USER=\$(cat "/etc/.dockercreds/username")
-                cat "/etc/.dockercreds/password" | docker login -u \$QUAY_USER --password-stdin quay.io
-                """
-            }
-        }
+#        stage('Configure') {
+#            container('docker') {
+#                sh 'echo "Initialize environment"'
+#                sh """
+#                QUAY_USER=\$(cat "/etc/.dockercreds/username")
+#                cat "/etc/.dockercreds/password" | docker login -u \$QUAY_USER --password-stdin quay.io
+#                """
+#            }
+#        }
         parallel 'Checkout Infra': {
             stage('Checkout Infra') {
                 sh 'mkdir -p ~/.ssh'
