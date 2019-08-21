@@ -19,7 +19,7 @@ podTemplate(
                         envVars: [
                                 envVar(key: 'NODE_OPTIONS', value: '--max_old_space_size=4096')
                         ]),
-                containerTemplate(name: 'golang', image: 'golang:1.12.7', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'golang', image: 'golang:1.12.7', ttyEnabled: true, command: 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add;  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" >> /etc/apt/sources.list; apt-get update > /dev/null 2>&1; apt-get -y install docker-ce docker-ce-cli > /dev/null; cat'),
 
 //              containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
 //              containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
@@ -29,7 +29,6 @@ podTemplate(
                 emptyDirVolume(memory: false, mountPath: '/var/lib/docker'),
                 secretVolume(mountPath: '/etc/.dockercreds', secretName: 'docker-creds'),
                 hostPathVolume(mountPath: '/usr/local/go/pkg/mod', hostPath: '/tmp/jenkins/go'),
-                hostPathVolume(mountPath: '/usr/bin/docker', hostPath: '/usr/bin/docker'),
                 hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
         ]
 ) {
