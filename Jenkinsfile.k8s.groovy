@@ -42,15 +42,15 @@ podTemplate(
                 ])
         ])
 
-#        stage('Configure') {
-#            container('docker') {
-#                sh 'echo "Initialize environment"'
-#                sh """
-#                QUAY_USER=\$(cat "/etc/.dockercreds/username")
-#                cat "/etc/.dockercreds/password" | docker login -u \$QUAY_USER --password-stdin quay.io
-#                """
-#            }
-#        }
+//        stage('Configure') {
+//           container('docker') {
+//                sh 'echo "Initialize environment"'
+//                sh """
+//                QUAY_USER=\$(cat "/etc/.dockercreds/username")
+//                cat "/etc/.dockercreds/password" | docker login -u \$QUAY_USER --password-stdin quay.io
+//                """
+//            }
+//        }
         parallel 'Checkout Infra': {
             stage('Checkout Infra') {
                 sh 'mkdir -p ~/.ssh'
