@@ -19,7 +19,7 @@ podTemplate(
                         envVars: [
                                 envVar(key: 'NODE_OPTIONS', value: '--max_old_space_size=4096')
                         ]),
-                containerTemplate(name: 'golang', image: 'amolchanov/golang-with-docker:1.0.2', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'golang', image: 'amolchanov/golang-with-docker:1.0.3', ttyEnabled: true, command: 'cat'),
 
 //              containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
 //              containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
