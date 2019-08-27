@@ -19,7 +19,7 @@ podTemplate(
                         envVars: [
                                 envVar(key: 'NODE_OPTIONS', value: '--max_old_space_size=4096')
                         ]),
-                containerTemplate(name: 'golang', image: 'golang:1.12.7', ttyEnabled: true, command: 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add;  echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable" >> /etc/apt/sources.list; apt-get update > /dev/null 2>&1; apt-get -y install docker-ce docker-ce-cli > /dev/null; cat'),
+                containerTemplate(name: 'golang', image: 'amolchanov/golang-with-docker:1.0.1', ttyEnabled: true, command: 'cat'),
 
 //              containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.8', command: 'cat', ttyEnabled: true),
 //              containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
